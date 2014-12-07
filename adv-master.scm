@@ -99,6 +99,7 @@
           (begin
             (define food-item (car lst))
             (insert! 'strength (+ (lookup 'strength table) (ask food-item 'calories)) table)
+            (print )
             (ask place 'remove-from-place food-item)
             (set! possessions (remove food-item possessions))
             (find-food (cdr lst))
@@ -499,8 +500,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (define *foods* '(pizza potstickers coffee))
 
-(define (edible? thing)
-  (member? (ask thing 'name) *foods*))
+(define (edible? thing) (ask thing 'edible?))
+
 
 (define-class (thief name initial-place)
   (parent (person name initial-place))
