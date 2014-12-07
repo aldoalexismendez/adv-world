@@ -26,6 +26,7 @@
    (entry-procs '())
    (exit-procs '()))
   (method (type) 'place)
+  (method (remove-from-place item) (set! things (remove item things))) ;helper method for B6
   (method (place?) #t) ;added for B4 part 2
   (method (neighbors) (map cdr directions-and-neighbors))
   (method (exits) (map car directions-and-neighbors))
