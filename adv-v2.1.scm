@@ -195,10 +195,12 @@
   (parent
    (place name))
   (instance-vars
-   (may-enter? #f))
+   (locked #f))
   (method (unlock)
-   (set! may-enter? #t)
+   (set! locked #t)
    'unlocked)
+  (method (may-enter? person)
+   (se locked))
   (method (type) 'locked-place))
 
 
