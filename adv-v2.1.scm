@@ -200,7 +200,7 @@
    (set! locked #t)
    'unlocked)
   (method (may-enter? person)
-   (se locked))
+   locked)
   (method (type) 'locked-place))
 
 
