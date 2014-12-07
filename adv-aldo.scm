@@ -2,6 +2,7 @@
 ;; This file contains the definitions for the objects in the adventure
 ;; game and some utility procedures.
 
+
 (define-class (place name)
   (parent (basic-object)) ;added to inherit basic-object
   (instance-vars
