@@ -616,13 +616,13 @@ Restaurants should have two methods. The menu method returns a list containing t
     (take-thiefs-items-helper items-lst '())
   )
 
-  (method (notice person)
-    (if (ask person 'thief?)
+  (method (notice pers)
+    (if (ask pers 'thief?)
       (begin
-        (define thiefs-items (ask person 'possessions))
+        (define thiefs-items (ask pers 'possessions))
         (display "Crime Does Not Pay")
-        (ask self 'take-thiefs-items thiefs-items)
-        (ask person 'go-directly-to-jail)))
+        (set! possessions (ask self 'take-thiefs-items thiefs-items))
+        (set! (ask pers 'remove-items))))
   )
 
 )
@@ -708,7 +708,7 @@ Restaurants should have two methods. The menu method returns a list containing t
    ;(ask self 'put 'strength 100)
    ;(ask self 'put 'behavior 'run))
   (method (type) 'thief)
-  (method (thief?) #t)
+  (method (remove-items) (set! possessions '()))
   (method (change attribute new-attribute-value)
     (set! attribute new-attribute))
 
