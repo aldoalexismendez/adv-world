@@ -603,26 +603,28 @@ Restaurants should have two methods. The menu method returns a list containing t
 (define pasta (instantiate food 'pasta 100))
 (define salad (instantiate food 'salad 50))
 
-(define-class (police 'name)
-  (parent (person name))
+(define-class (police name place)
+  (parent (person name place))
   (initialize (ask self 'put 'strength 150))
+
   (method (take-thiefs-items items-lst)
     (define (take-thiefs-items-helper lst new-items-lst)
       (cond
         ((empty? lst) new-items-lst)
         (else (take-thiefs-items-helper (cdr lst) (append new-items-lst (car lst))))
       ))
-    (take-thiefs-items-helper lst '())
+    (take-thiefs-items-helper items-lst '())
   )
+
   (method (notice person)
     (if (ask person 'thief?)
       (begin
         (define thiefs-items (ask person 'possessions))
         (display "Crime Does Not Pay")
-        (take-thiefs-items thiefs-items)
+        (ask self 'take-thiefs-items thiefs-items)
         (ask person 'go-directly-to-jail)))
   )
-  
+
 )
 
 
