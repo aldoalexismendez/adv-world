@@ -270,12 +270,6 @@ Restaurants should have two methods. The menu method returns a list containing t
         (else 
           (begin
             (ask self 'take (car lst))
-            (if (and (ask self 'has-laptop?) (ask place 'hotspot?)) ; copy from here: Automatically disconnects laptop from hotspot
-              (begin
-                (define computer (ask self 'find-laptop))
-                (ask place 'remove-from-network computer)
-                "laptop removed from network"
-                )); up until here: automatically disconnects laptop from hotspot
             (take-all-helper (cdr lst))))))
     (take-all-helper unowned-items)) ; copy up until here
 
@@ -293,7 +287,12 @@ Restaurants should have two methods. The menu method returns a list containing t
      
       (if (not (eq? (ask place 'type) 'locked-place))
 	  (begin
-	     
+            (if (and (ask self 'has-laptop?) (ask place 'hotspot?)) ; copy from here: Automatically disconnects laptop from hotspot
+              (begin
+                (define computer (ask self 'find-laptop))
+                (ask place 'remove-from-network computer)
+                "laptop removed from network"
+                )); up until here: automatically disconnects laptop from hotspot	     
 	    
 	     (for-each
 	      (lambda (p)
@@ -620,9 +619,11 @@ Restaurants should have two methods. The menu method returns a list containing t
     (if (ask pers 'thief?)
       (begin
         (define thiefs-items (ask pers 'possessions))
+        (set! possessions (append possessions thiefs-items))
+        (ask pers 'remove-items)
         (display "Crime Does Not Pay")
-        (set! possessions (ask self 'take-thiefs-items thiefs-items))
-        (set! (ask pers 'remove-items))))
+        (ask thief 'go-directly-to-jail)
+        ))
   )
 
 )
@@ -708,7 +709,8 @@ Restaurants should have two methods. The menu method returns a list containing t
    ;(ask self 'put 'strength 100)
    ;(ask self 'put 'behavior 'run))
   (method (type) 'thief)
-  (method (remove-items) (set! possessions '()))
+  (method (thief?) #t)
+  (method (remove-items) (set! (ask self 'possessions) '()))
   (method (change attribute new-attribute-value)
     (set! attribute new-attribute))
 
